@@ -1,0 +1,37 @@
+{
+  "name": "tabatha",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "dev": "web-ext run",
+    "extension": "next build && next export -o extension/html && mv extension/html/_next extension/html/next && cp extension/manifest.json extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
+    "pkg": "yarn extension && web-ext build --overwrite-dest && rm -rf extension/html"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "next": "^11.1.0",
+    "react": "17.0.2",
+    "react-contexify": "^5.0.0",
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.1"
+  },
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/node": "^16.7.5",
+    "@types/react": "^17.0.19",
+    "@types/styled-components": "^5.1.13",
+    "typescript": "^4.4.2",
+    "web-ext": "^6.3.0"
+  },
+  "webExt": {
+    "sourceDir": "extension/html",
+    "ignoreFiles": [
+      "package.json",
+      "yarn.lock"
+    ]
+  }
+}

@@ -16,3 +16,7 @@ There is a hosted copy of the same application that runs in the extension hosted
 
 **Firefox** : [Awaiting release](https://dstn.to)\
 **Chrome** : [Awaiting release](https://dstn.to)
+
+## Running
+
+To run the extension yourself clone it, install the packages by running `yarn` in the project root, then run `yarn dev` and it will proceed to run the extension in a test firefox instance.

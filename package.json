@@ -8,7 +8,7 @@
     "start": "next start",
     "export": "next export",
     "extension": "next build && next export -o extension/html && mv extension/html/_next extension/html/next && cp extension/manifest.json extension/html/manifest.json && cp -R extension/assets extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
-    "dev": "yarn extension && web-ext run && rm extension/html",
+    "dev": "yarn extension && web-ext run && rm -rf extension/html",
     "pkg": "yarn extension && web-ext build --overwrite-dest && rm -rf extension/html"
   },
   "dependencies": {

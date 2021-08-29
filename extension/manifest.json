@@ -6,5 +6,9 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "description": "Sleek & dark new tab replacement"
+  "description": "Sleek & dark new tab replacement",
+  "icons": {
+    "48": "assets/icon48.png",
+    "96": "assets/icon96.png"
+  }
 }

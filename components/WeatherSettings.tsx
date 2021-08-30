@@ -83,7 +83,7 @@ export default function WeatherSettings({
 }
 
 const Container = styled.div`
-  background-color: #242323;
+  background-color: rgb(27, 29, 30);
   width: 500px;
   height: auto;
   border-radius: 8px;
@@ -98,7 +98,6 @@ const HeadingText = styled.h2`
 
 const Heading = styled.div`
   padding: 10px;
-  border-bottom: 1px solid #ffffff15;
   justify-content: space-between;
 
   display: flex;
@@ -153,7 +152,6 @@ const LeftSection = styled.div`
 `;
 
 const TemperatureUnit = styled.div`
-  border-bottom: 1px solid #ffffff15;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -161,7 +159,6 @@ const TemperatureUnit = styled.div`
 `;
 
 const SetLocation = styled.div`
-  border-bottom: 1px solid #ffffff15;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -171,6 +168,7 @@ const SetLocation = styled.div`
 const OptionTitle = styled.h3`
   font-size: 18px;
   margin: 10px;
+  font-weight: normal;
 `;
 
 const OptionSubtitle = styled.h3`
@@ -190,7 +188,7 @@ const ToggleTemperature = styled.div`
 const ToggleButton = styled.button<{ blue?: boolean; red?: boolean }>`
   width: 80px;
   height: 25px;
-  border-radius: 7px;
+  border-radius: 20px;
   color: #ffffff;
   background-color: ${(props) =>
     props.blue ? "blue" : props.red ? "red" : "gray"};

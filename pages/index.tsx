@@ -1,12 +1,12 @@
 import Head from "next/head";
 
-import debounce from "lodash.debounce";
 import { useState, useEffect } from "react";
 
 import styled from "styled-components";
 import { SettingsIcon } from "../components/SettingsIcon";
 import WeatherSettings from "../components/WeatherSettings";
 import { Weather } from "../types/Weather";
+import { getUsersGeolocation } from "../utils/geolocation";
 
 const days = [
   "Sunday",
@@ -18,11 +18,18 @@ const days = [
   "Saturday",
 ];
 
-function getZipCode(): string {
+function getTemperatureEnabled(): boolean {
   if (typeof window == "undefined") return;
-  if (!localStorage.getItem("tabatha_zip_code"))
-    localStorage.setItem("tabatha_zip_code", "");
-  return localStorage.getItem("tabatha_zip_code");
+  if (!localStorage.getItem("tabatha_weather_enabled"))
+    localStorage.setItem("tabatha_weather_enabled", "false");
+  return localStorage.getItem("tabatha_weather_enabled") === "true";
+}
+
+function getCoords(): { lat: number; lon: number } {
+  if (typeof window == "undefined") return;
+  if (!localStorage.getItem("tabatha_weather_coords"))
+    localStorage.setItem("tabatha_weather_coords", JSON.stringify({}));
+  return JSON.parse(localStorage.getItem("tabatha_weather_coords"));
 }
 
 function getTemperatureUnit(): "F" | "C" {
@@ -47,16 +54,21 @@ export default function Home() {
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
   const [date, setDate] = useState(days[new Date().getDay().toString()]);
-  const [zip, setZip] = useState(getZipCode());
+
+  const [coords, setCoords] = useState(getCoords());
+  const [temperatureEnabled, setTemperatureEnabled] = useState(
+    getTemperatureEnabled()
+  );
   const [temperature, setTemperature] = useState("0");
   const [tempUnit, setTempUnit] = useState(getTemperatureUnit());
 
   const [weatherSettingsVisible, showWeatherSettings] = useState(false);
 
-  async function getTemperature(zip: string) {
-    const data: Weather = await fetch(`https://weather.dstn.to/${zip}`).then(
-      (r) => r.json()
-    );
+  async function getTemperature({ lat, lon }: { lat: number; lon: number }) {
+    if (!lat || !lon || !temperatureEnabled) return;
+    const data: Weather = await fetch(
+      `https://weather.dstn.to/coords/${lat}/${lon}`
+    ).then((r) => r.json());
     const temp =
       tempUnit == "F"
         ? ((data.temperature.current - 273.15) * 9) / 5 + 32
@@ -92,22 +104,28 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    getTemperature(zip);
-  }, [tempUnit]);
+    getTemperature(coords);
+  }, [tempUnit, temperatureEnabled]);
 
-  function changeTemp() {
-    if (zip.length == 5) {
+  async function updateGeolocation() {
+    const location = await getUsersGeolocation();
+    setCoords(location);
+    setTemperatureEnabled(true);
+  }
+
+  function changeTemp({ lat, lon }) {
+    if (lat && lon) {
       if (tempTimeout) clearInterval(tempTimeout);
       tempTimeout = setInterval(async () => {
-        getTemperature(zip);
+        getTemperature({ lat, lon });
       }, 30000);
-      getTemperature(zip);
+      getTemperature({ lat, lon });
     }
   }
 
   useEffect(() => {
-    changeTemp();
-  }, [zip]);
+    changeTemp(coords);
+  }, [coords]);
 
   return (
     <>
@@ -117,8 +135,10 @@ export default function Home() {
           <ModalWrapped>
             <WeatherSettings
               closeMenu={() => showWeatherSettings(false)}
-              zip={zip}
-              setZip={setZip}
+              coords={coords}
+              temperatureEnabled={temperatureEnabled}
+              setTemperatureEnabled={setTemperatureEnabled}
+              updateGeolocation={updateGeolocation}
               tempUnit={tempUnit}
               setTempUnit={setTempUnit}
             />
@@ -135,7 +155,7 @@ export default function Home() {
             <Settings onClick={() => showWeatherSettings(true)} />
           </TopRightContent>
           <TopLeftContent>
-            {zip && temperature != "0" && (
+            {temperatureEnabled && temperature != "0" && (
               <Temperature>
                 {temperature}° {tempUnit}
               </Temperature>

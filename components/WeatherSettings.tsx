@@ -1,35 +1,32 @@
-import Head from "next/head";
-
-import { useState, useEffect } from "react";
+import React from "react";
 
 import styled from "styled-components";
 
-function getTemperatureUnit(): "F" | "C" {
-  if (typeof window == "undefined") return;
-  return localStorage.getItem("tabatha_temperature_unit") as "F" | "C";
-}
-
 export default function WeatherSettings({
   closeMenu,
-  zip,
-  setZip,
+  coords,
+  temperatureEnabled,
+  setTemperatureEnabled,
+  updateGeolocation,
   tempUnit,
   setTempUnit,
 }: {
-  zip: string;
-  setZip: (zip: string) => void;
+  coords: { lat: number; lon: number };
+  temperatureEnabled: boolean;
+  setTemperatureEnabled: (value: boolean) => void;
+  updateGeolocation: () => void;
   tempUnit: "F" | "C";
   setTempUnit: (unit: "F" | "C") => void;
   closeMenu: () => void;
 }) {
-  function setZipCode(zipCode: string) {
-    setZip(zipCode);
-    localStorage.setItem("tabatha_zip_code", zipCode);
-  }
-
   function switchUnit(unit: "F" | "C") {
     setTempUnit(unit);
     localStorage.setItem("tabatha_temperature_unit", unit);
+  }
+
+  function toggleTemperature(value: boolean) {
+    setTemperatureEnabled(value);
+    localStorage.setItem("tabatha_weather_enabled", value.toString());
   }
 
   return (
@@ -40,12 +37,18 @@ export default function WeatherSettings({
       </Heading>
       <Sections>
         <SetLocation>
-          <OptionTitle>Set ZIP Code</OptionTitle>
+          <LeftSection>
+            <OptionTitle>Current Location</OptionTitle>
+            <OptionSubtitle>
+              {coords.lat && coords.lon
+                ? `Current location is set to (${coords.lat}, ${coords.lon})`
+                : "Current location is not set."}
+            </OptionSubtitle>
+          </LeftSection>
           <RightSection>
-            <ZipEntry
-              value={zip}
-              onChange={(e) => setZipCode(e.target.value)}
-            ></ZipEntry>
+            <ToggleButton onClick={(e) => updateGeolocation()} blue>
+              Find me
+            </ToggleButton>
           </RightSection>
         </SetLocation>
         <TemperatureUnit>
@@ -61,9 +64,17 @@ export default function WeatherSettings({
           </RightSection>
         </TemperatureUnit>
         <ToggleTemperature>
-          <OptionTitle>Disable Temperature</OptionTitle>
+          <OptionTitle>
+            {temperatureEnabled ? "Disable" : "Enable"} Temperature
+          </OptionTitle>
           <RightSection>
-            <ToggleButton onClick={(e) => setZipCode("")}>Disable</ToggleButton>
+            <ToggleButton
+              onClick={(e) => toggleTemperature(!temperatureEnabled)}
+              red={temperatureEnabled}
+              blue={!temperatureEnabled}
+            >
+              {temperatureEnabled ? "Disable" : "Enable"}
+            </ToggleButton>
           </RightSection>
         </ToggleTemperature>
       </Sections>
@@ -74,7 +85,7 @@ export default function WeatherSettings({
 const Container = styled.div`
   background-color: #242323;
   width: 500px;
-  height: 215px;
+  height: auto;
   border-radius: 8px;
   margin: auto;
   padding: 15px;
@@ -136,6 +147,11 @@ const RightSection = styled.div`
   flex-direction: column;
 `;
 
+const LeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const TemperatureUnit = styled.div`
   border-bottom: 1px solid #ffffff15;
   display: flex;
@@ -157,6 +173,13 @@ const OptionTitle = styled.h3`
   margin: 10px;
 `;
 
+const OptionSubtitle = styled.h3`
+  font-size: 12px;
+  margin: 10px;
+  margin-top: -10px;
+  font-weight: normal;
+`;
+
 const ToggleTemperature = styled.div`
   display: flex;
   flex-direction: row;
@@ -164,24 +187,13 @@ const ToggleTemperature = styled.div`
   justify-content: space-between;
 `;
 
-const ZipEntry = styled.input`
-  width: 80px;
-  height: 25px;
-  border-radius: 7px;
-  padding: 10px;
-  text-align: center;
-  border: none;
-  margin-right: 10px;
-  color: #ffffff;
-  background-color: #1d1d1d;
-`;
-
-const ToggleButton = styled.button`
+const ToggleButton = styled.button<{ blue?: boolean; red?: boolean }>`
   width: 80px;
   height: 25px;
   border-radius: 7px;
   color: #ffffff;
-  background-color: red;
+  background-color: ${(props) =>
+    props.blue ? "blue" : props.red ? "red" : "gray"};
   border: none;
   margin-right: 10px;
 `;

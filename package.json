@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "extension": "next build && next export -o extension/html && mv extension/html/_next extension/html/next && cp extension/manifest.json extension/html/manifest.json && cp -R extension/assets extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
+    "extension": "next build && next export -o extension/html && mv extension/html/_next extension/html/next && cp -R extension/assets extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
     "dev": "yarn extension && web-ext run && rm -rf extension/html",
-    "pkg": "yarn extension && web-ext build --overwrite-dest && rm -rf extension/html"
+    "pkg:chrome": "cp extension/manifest.chrome.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/chrome",
+    "pkg:firefox": "cp extension/manifest.firefox.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/firefox",
+    "pkg": "yarn extension && yarn pkg:chrome && yarn pkg:firefox && rm -rf extension/html"
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
@@ -31,7 +33,9 @@
     "sourceDir": "extension/html",
     "ignoreFiles": [
       "package.json",
-      "yarn.lock"
+      "yarn.lock",
+      "manifest.chrome.json",
+      "manifest.firefox.json"
     ]
   }
 }

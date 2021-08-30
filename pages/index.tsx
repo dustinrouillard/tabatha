@@ -111,6 +111,7 @@ export default function Home() {
     const location = await getUsersGeolocation();
     setCoords(location);
     setTemperatureEnabled(true);
+    localStorage.setItem("tabatha_weather_enabled", "true");
   }
 
   function changeTemp({ lat, lon }) {

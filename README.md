@@ -14,7 +14,7 @@ There is a hosted copy of the same application that runs in the extension hosted
 
 ## Downloads
 
-**Firefox** : [Awaiting release](https://dstn.to/tab-firefox)\
+**Firefox** : [Addon Store](https://dstn.to/tab-firefox)\
 **Chrome** : [Awaiting release](https://dstn.to)
 
 ## Running

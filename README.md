@@ -10,7 +10,11 @@ There is a hosted copy of the same application that runs in the extension hosted
 
 ## Preview
 
-![Screenshot of New Tab page in Firefox](https://dustin.pics/269123faeda8538b.png)
+Here is the screenshots, using Tabatha, as well as my minimal [Lights Out](https://dstn.to/lights-out-firefox) theme (Chrome version of Lights Out theme coming soon)
+
+Firefox             |  Chrome
+:-------------------------:|:-------------------------:
+![Screenshot of New Tab page in Firefox](https://dustin.pics/2fd4c33b00bb5836.png)  |  ![Screenshot of New Tab page in Chrome](https://dustin.pics/c93710809bc6684e.png)
 
 ## Downloads
 

@@ -258,7 +258,7 @@ const ContentBody = styled.div<{ right?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
 `;
 
 const ContentHeading = styled.div`

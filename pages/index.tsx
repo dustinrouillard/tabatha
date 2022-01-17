@@ -3,6 +3,8 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 
 import styled from "styled-components";
+import { ExtensionInstall } from "../components/InstallExtension";
+import NoSSR from "../components/NoSSR";
 import { SettingsIcon } from "../components/SettingsIcon";
 import WeatherSettings from "../components/WeatherSettings";
 import { Weather } from "../types/Weather";
@@ -152,6 +154,12 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Content>
+          <NoSSR>
+            {typeof location != "undefined" &&
+              new URL(location.href).pathname != "/index.html" && (
+                <ExtensionInstall />
+              )}
+          </NoSSR>
           <TopRightContent>
             <Settings onClick={() => showWeatherSettings(true)} />
           </TopRightContent>

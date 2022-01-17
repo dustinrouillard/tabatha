@@ -1,6 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
+import { Coordnates } from "./Coords";
 
 export default function WeatherSettings({
   closeMenu,
@@ -40,9 +41,7 @@ export default function WeatherSettings({
           <LeftSection>
             <OptionTitle>Current Location</OptionTitle>
             <OptionSubtitle>
-              {coords.lat && coords.lon
-                ? `Current location is set to (${coords.lat}, ${coords.lon})`
-                : "Current location is not set."}
+              <Coordnates coords={coords} />
             </OptionSubtitle>
           </LeftSection>
           <RightSection>

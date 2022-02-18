@@ -41,18 +41,21 @@ function getTemperatureUnit(): "F" | "C" {
   return localStorage.getItem("tabatha_temperature_unit") as "F" | "C";
 }
 
+function getTimeMessage(date?: Date): string {
+  if (!date) date = new Date();
+  return date.getHours() >= 12 && date.getHours() < 20
+    ? "Good afternoon."
+    : date.getHours() >= 20 || date.getHours() < 4
+    ? "Good night."
+    : date.getHours() < 12
+    ? "Good morning."
+    : "Good evening.";
+}
+
 let tempTimeout;
 
 export default function Home() {
-  const [greeting, setGreeting] = useState(
-    new Date().getHours() >= 12 && new Date().getHours() < 20
-      ? "Good afternoon."
-      : new Date().getHours() >= 20 || new Date().getHours() < 4
-      ? "Good night."
-      : new Date().getHours() < 12
-      ? "Good morning."
-      : "Good evening."
-  );
+  const [greeting, setGreeting] = useState(getTimeMessage());
 
   const [time, setTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
@@ -91,13 +94,7 @@ export default function Home() {
           minute: "2-digit",
         })
       );
-      setGreeting(
-        currentDate.getHours() >= 12 && currentDate.getHours() < 18
-          ? "Good afternoon."
-          : currentDate.getHours() < 12
-          ? "Good morning."
-          : "Good evening."
-      );
+      setGreeting(getTimeMessage(currentDate));
 
       setDate(days[currentDate.getDay().toString()]);
     }, 1000);

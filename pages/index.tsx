@@ -45,8 +45,10 @@ let tempTimeout;
 
 export default function Home() {
   const [greeting, setGreeting] = useState(
-    new Date().getHours() >= 12 && new Date().getHours() < 18
+    new Date().getHours() >= 12 && new Date().getHours() < 20
       ? "Good afternoon."
+      : new Date().getHours() >= 20 || new Date().getHours() < 4
+      ? "Good night."
       : new Date().getHours() < 12
       ? "Good morning."
       : "Good evening."

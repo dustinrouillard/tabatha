@@ -82,7 +82,13 @@ export default function WeatherSettings({
 }
 
 const Container = styled.div`
-  background-color: rgb(27, 29, 30);
+  @media (prefers-color-scheme: light) {
+    background-color: #d4d4d4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(27, 29, 30);
+  }
   width: 500px;
   height: auto;
   border-radius: 8px;

@@ -1,41 +1,40 @@
 {
   "name": "tabatha",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "extension": "next build && next export -o extension/html && mv extension/html/_next extension/html/next && cp -R extension/assets extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
-    "dev:chrome": "yarn extension && cp extension/manifest.chrome.json extension/html/manifest.json && web-ext run -t chromium",
-    "dev:firefox": "yarn extension && cp extension/manifest.firefox.json extension/html/manifest.json && web-ext run",
-    "dev": "yarn dev:firefox",
-    "pkg:chrome": "cp extension/manifest.chrome.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/chrome",
-    "pkg:firefox": "cp extension/manifest.firefox.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/firefox",
-    "pkg": "yarn extension && yarn pkg:chrome && yarn pkg:firefox && rm -rf extension/html"
+    "extension": "next build && mv extension/html/_next extension/html/next && cp -R extension/assets extension/html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/*.html && sed -i '' -e 's/\\/_next/\\/next/g' extension/html/next/static/chunks/*.js",
+    "dev:chrome": "pnpm extension && cp extension/manifest.chrome.json extension/html/manifest.json && web-ext run -t chromium",
+    "dev:firefox": "pnpm extension && cp extension/manifest.firefox.json extension/html/manifest.json && web-ext run",
+    "dev": "pnpm dev:firefox",
+    "pg:chrome": "cp extension/manifest.chrome.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/chrome",
+    "pg:firefox": "cp extension/manifest.firefox.json extension/html/manifest.json && web-ext build --overwrite-dest -a web-ext-artifacts/firefox",
+    "pg": "pnpm extension && pnpm pg:chrome && pnpm pg:firefox && rm -rf extension/html"
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
-    "next": "^11.1.0",
-    "react": "17.0.2",
-    "react-contexify": "^5.0.0",
-    "react-dom": "17.0.2",
-    "styled-components": "^5.3.1"
+    "next": "^15.1.7",
+    "react": "19.0.0",
+    "react-contexify": "^6.0.0",
+    "react-dom": "19.0.0",
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
-    "@types/lodash.debounce": "^4.0.6",
-    "@types/node": "^16.7.5",
-    "@types/react": "^17.0.19",
-    "@types/styled-components": "^5.1.13",
-    "typescript": "^4.4.2",
-    "web-ext": "^6.3.0"
+    "@types/lodash.debounce": "^4.0.9",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.8",
+    "@types/styled-components": "^5.1.34",
+    "typescript": "^5.7.3",
+    "web-ext": "^8.4.0"
   },
   "webExt": {
     "sourceDir": "extension/html",
     "ignoreFiles": [
       "package.json",
-      "yarn.lock",
+      "pnpm-lock.yaml",
       "manifest.chrome.json",
       "manifest.firefox.json"
     ]

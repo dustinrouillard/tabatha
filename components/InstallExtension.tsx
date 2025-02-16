@@ -46,6 +46,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media (prefers-color-scheme: light) {
+    background-color: #d4d4d4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #271f1f;
+  }
+
   background-color: #271f1f;
   border-radius: 0 0 10px 10px;
 
@@ -66,13 +74,28 @@ const Outter = styled.div`
 `;
 
 const Title = styled.h3`
+  @media (prefers-color-scheme: light) {
+    color: #000000;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
+
   color: #ffffff;
   margin: 0;
   margin-bottom: 10px;
 `;
 
 const Subtitle = styled.p`
-  color: #ffffff;
+  @media (prefers-color-scheme: light) {
+    color: #000000;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
+
   margin: 0;
 `;
 
@@ -81,8 +104,15 @@ const DownloadButton = styled.div`
   padding: 15px;
   height: 40px;
   margin-top: 20px;
-  color: #ffffff;
   background-color: #3389ec;
+  @media (prefers-color-scheme: light) {
+    color: #000000;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
+
   border-radius: 10px;
 
   display: flex;
@@ -101,8 +131,15 @@ const OtherBrowser = styled.p`
   margin: 0;
   margin-top: 5px;
   font-size: 15px;
-  color: #ffffff;
   opacity: 0.6;
+
+  @media (prefers-color-scheme: light) {
+    color: #000000;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
 
   :hover {
     filter: brightness(50%);

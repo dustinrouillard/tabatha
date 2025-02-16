@@ -12,6 +12,20 @@ const GlobalStyle = createGlobalStyle`
       sans-serif;
   }
 
+  @media (prefers-color-scheme: light) {
+    body {
+      background-color: #ffffff;
+      color: #000000;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -20,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: underline;
     }
   }
-  
+
   * {
     box-sizing: border-box;
     transition: all 150ms linear;
